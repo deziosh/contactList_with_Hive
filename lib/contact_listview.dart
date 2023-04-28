@@ -25,13 +25,15 @@ class ContactListView extends StatelessWidget {
         return Card(
           child: ExpansionTile(
             title: Text(
-              '${users[index].user_id} - ${users[index].email}',
+              '${users[index].user_id} - ${users[index].user_name}',
               style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 24,
+                  color: Color.fromARGB(255, 0, 0, 0)),
             ),
-            subtitle: Text(users[index].user_name),
+            subtitle: Text(
+              '${users[index].email} - ${users[index].telefone}',
+            ),
             children: <Widget>[
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -43,11 +45,11 @@ class ContactListView extends StatelessWidget {
                     },
                     icon: const Icon(
                       Icons.edit,
-                      color: Colors.amber,
+                      color: Color.fromARGB(255, 7, 255, 98),
                     ),
                     label: const Text(
                       'Editar',
-                      style: TextStyle(color: Colors.amber),
+                      style: TextStyle(color: Color.fromARGB(255, 40, 255, 7)),
                     ),
                   ),
                   TextButton.icon(

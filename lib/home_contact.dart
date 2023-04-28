@@ -20,12 +20,14 @@ class _HomeContactState extends State<HomeContact> {
   final idUserControl = TextEditingController();
   final nameUserControl = TextEditingController();
   final emailUserControl = TextEditingController();
+  final telefoneUserControl = TextEditingController();
 
   @override
   void dispose() {
     idUserControl.dispose();
     nameUserControl.dispose();
     emailUserControl.dispose();
+    telefoneUserControl.dispose();
     Hive.close(); // fechar as boxes
     super.dispose();
   }
@@ -36,7 +38,8 @@ class _HomeContactState extends State<HomeContact> {
     UserModel user = UserModel()
       ..user_id = '1'
       ..user_name = 'Joao'
-      ..email = 'xx@xx.com';
+      ..email = 'xx@xx.com'
+      ..telefone = '1';
     users.add(user);
     users.add(user);
     users.add(user);
@@ -45,14 +48,16 @@ class _HomeContactState extends State<HomeContact> {
     return users;
   }
 
-  Future<void> addUser(String id, String name, String email) async {
+  Future<void> addUser(
+      String id, String name, String email, String telefone) async {
     if (_formKey.currentState!.validate()) {
       _formKey.currentState!.save();
 
       final user = UserModel()
         ..user_id = id
         ..user_name = name
-        ..email = email;
+        ..email = email
+        ..telefone = telefone;
 
       // pega a caixa aberta
       final box = UserBox.getUsers();
@@ -78,12 +83,14 @@ class _HomeContactState extends State<HomeContact> {
     idUserControl.text = user.user_id;
     nameUserControl.text = user.user_name;
     emailUserControl.text = user.email;
+    telefoneUserControl.text = user.telefone;
   }
 
   void _clearTextControllers() {
     idUserControl.clear();
     nameUserControl.clear();
     emailUserControl.clear();
+    telefoneUserControl.clear();
   }
 
   @override
@@ -95,30 +102,37 @@ class _HomeContactState extends State<HomeContact> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Lista de Contatos'),
+          backgroundColor: Color.fromARGB(250, 0, 0, 0),
         ),
         body: SingleChildScrollView(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(20),
           child: Column(
             children: <Widget>[
               FormContactFielder(
                 controller: idUserControl,
-                iconData: Icons.person,
+                iconData: Icons.numbers,
                 hintTextName: 'Código',
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               FormContactFielder(
                 controller: nameUserControl,
                 iconData: Icons.person_outline,
                 hintTextName: 'Nome',
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               FormContactFielder(
                 controller: emailUserControl,
                 iconData: Icons.email_outlined,
                 textInputType: TextInputType.emailAddress,
                 hintTextName: 'Email',
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
+              FormContactFielder(
+                controller: telefoneUserControl,
+                iconData: Icons.phone,
+                hintTextName: 'Telefone',
+              ),
+              const SizedBox(height: 20),
               Container(
                 padding: const EdgeInsets.only(left: 40),
                 child: Row(
@@ -130,6 +144,7 @@ class _HomeContactState extends State<HomeContact> {
                           idUserControl.text,
                           nameUserControl.text,
                           emailUserControl.text,
+                          telefoneUserControl.text,
                         ),
                         child: const Text('Adicionar'),
                       ),
@@ -152,7 +167,7 @@ class _HomeContactState extends State<HomeContact> {
                   if (users.isEmpty) {
                     return Center(
                       child: const Text(
-                        'No Users Found',
+                        'Sem Contatos Criados',
                         style: const TextStyle(fontSize: 20),
                       ),
                     );
